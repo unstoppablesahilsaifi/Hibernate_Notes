@@ -36,3 +36,52 @@ Firstly we need to add DTD "Document Type Definition" in out xml.
 </hibernate-configuration>
  
        
+			
+			
+-> Session factory is an interface factory for providing sessions.
+	
+
+App.java
+
+package com.mavenlearn;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+        System.out.println( "Project started" );
+	// session factory is an interface so we can not make the object so we would be required a class to make the object.
+	    
+	    //SessionFactory factory=new Configuration().configure().buildSessionFactory();
+	    
+	                  //   or below code seprately or we can code in one line as mentioned above.
+	    
+        Configuration cfg=new Configuration();
+        cfg.configure("hibernate.cfg.xml");
+        SessionFactory factory=cfg.buildSessionFactory();
+        System.out.println(factory);
+        //creating student
+        Student st=new Student();
+        st.setId(101);
+        st.setName("Sahil");
+        st.setCity("Delhi");
+        System.out.println(st);
+        Session session=factory.openSession();
+        
+        Transaction tx= session.beginTransaction();
+        session.save(st);
+        tx.commit();
+        
+        session.close();
+       
+    }
+}
